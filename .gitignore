@@ -1,0 +1,12 @@
+env/
+migrations/
+__pycache__/
+pycache/
+*.pyc
+db.sqlite3
+*.env
+*.sql
+/data
+.dockerignore
+docker-compose.yml
+Dockerfile.txt
