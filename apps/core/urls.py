@@ -5,4 +5,5 @@ app_name = 'core'
 
 urlpatterns = [
     path('', dashboard_view, name='index'),
+    path('category/list/', CategoryListView.as_view(), name='category_list'),
 ]
