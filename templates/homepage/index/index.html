@@ -1,0 +1,36 @@
+<!-- filepath: /e:/Programs Installed/xampp/htdocs/Curso Algorisoft/django_cero_master/templates/your_template.html -->
+{% extends "partials/base.html" %}
+{% load static %}
+{% block title %}{{ title }}{% endblock title %}
+
+{% block extra_css %}
+<!-- Add your custom CSS here -->
+{% endblock extra_css %}
+
+{% block content %}
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    {% block pagetitle %}
+                    {% include "partials/page-title.html" with pagetitle=section title=title %}
+                    {% endblock pagetitle %}
+                    
+                    <!-- Your content goes here -->
+                    
+                </div>
+                <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+            {% block footer %}
+            {% include "partials/footer.html" %}
+            {% endblock footer %}
+        </div>
+        <!-- end main content-->
+{% endblock content %}
+
+{% block extra_js %}
+<!-- Add your custom JS here -->
+{% endblock extra_js %}

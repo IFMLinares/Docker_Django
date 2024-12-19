@@ -31,7 +31,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h5 class="card-title mb-0">Scroll - Horizontal</h5>
-                                </div>
+                                </div><!-- filepath: /e:/Programs Installed/xampp/htdocs/Curso Algorisoft/django_cero_master/templates/categories/list.html -->
                                 <div class="card-body">
                                     <table id="scroll-horizontal" class="table nowrap align-middle" style="width:100%">
                                         <thead>
@@ -42,7 +42,8 @@
                                                     </div>
                                                 </th>
                                                 <th>No.</th>
-                                                <th>Title</th>
+                                                <th>Nombre</th>
+                                                <th>Descripción</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -54,11 +55,16 @@
                                                         <input class="form-check-input fs-15" type="checkbox" name="checkAll" value="option1">
                                                     </div>
                                                 </th>
+                                                <td>{{ category.id }}</td>
+                                                <td>{{ category.name }}</td>
+                                                <td>{{ category.desc }}</td>
                                                 <td>
-                                                    {{ category.id }}
-                                                </td>
-                                                <td><a href="#!">{{ category.name }}</a></td>
-                                                <td>
+                                                    <a href="{% url 'core:category_edit' category.id %}" class="btn btn-primary waves-effect waves-light">
+                                                        <i class="bx bx-edit-alt"></i>
+                                                    </a>
+                                                    <a href="{% url 'core:category_delete' category.id %}" class="btn btn-danger waves-effect waves-light">
+                                                        <i class="bx bx-trash-alt"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                             {% endfor %}
