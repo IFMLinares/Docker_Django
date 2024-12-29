@@ -5,4 +5,4 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 class IndexView(LoginRequiredMixin, TemplateView):
-    template_name = 'homepage/index/index.html'
+    template_name = 'apps/homepage/index/index.html'

@@ -11,8 +11,8 @@ from apps.core.forms import CategoryForm
 
 class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
-    template_name = "core/categories/list.html"
-    context_object_name = "categories"
+    template_name = "apps/categories/list.html"
+    context_object_name = "objects"
 
     # Método dispath para requerir autenticación
     @method_decorator(csrf_exempt)
@@ -37,36 +37,27 @@ class CategoryListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['section'] = "Categorias"
         context['title'] = "Listado de Categorias"
+        context['url_create'] = reverse_lazy('core:category_create')
         return context
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     form_class = CategoryForm
-    template_name = "core/categories/create.html"
+    template_name = "apps/generic/create.html"
     success_url = reverse_lazy('core:category_list')
-
-    # def post(self, request, *args, **kwargs):
-    #     form = CategoryForm(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    #         return HttpResponseRedirect(self.success_url)
-    #     self.object = None
-    #     context = self.get_context_data(**kwargs)
-    #     context['form'] = form
-    #     return render(request, self.template_name, context)
-        
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['section'] = "Categorias"
         context['title'] = "Registro de Categorias"
         context['subtitle'] = "Formulario de registro"
+        context['return_url'] = self.success_url
         return context
 
 class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     model = Category
     form_class = CategoryForm
-    template_name = "core/categories/create.html"
+    template_name = "apps/generic/create.html"
     success_url = reverse_lazy('core:category_list')
 
     def get_context_data(self, **kwargs):
@@ -74,11 +65,12 @@ class CategoryUpdateView(LoginRequiredMixin, UpdateView):
         context['section'] = "Categorias"
         context['title'] = "Actualización de Categorias"
         context['subtitle'] = "Formulario de actualización"
+        context['return_url'] = self.success_url
         return context
 
 class CategoryDeleteView(LoginRequiredMixin, DeleteView):
     model = Category
-    template_name = "core/categories/delete.html"
+    template_name = "apps/categories/delete.html"
     success_url = reverse_lazy('core:category_list')
 
     def get_context_data(self, **kwargs):

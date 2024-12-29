@@ -66,22 +66,27 @@ class ProductForm(ModelForm):
             'name': TextInput(
                 attrs={
                     'placeholder': 'Ingrese el nombre del producto',
-                    }
-                ),
+                }
+            ),
             'cate': Select(
                 attrs={
                     'placeholder': 'Seleccione la categoría del producto',
-                    }
-                ),
+                }
+            ),
             'image': FileInput(
                 attrs={
                     'placeholder': 'Seleccione la imagen del producto',
-                    }
-                ),
+                }
+            ),
             'pvp': NumberInput(
                 attrs={
                     'placeholder': 'Ingrese el precio de venta del producto',
-                    }
-                ),
-                
+                }
+            ),
         }
+
+    def clean_image(self):
+        image = self.cleaned_data.get('image', False)
+        if not image:
+            return self.instance.image
+        return image

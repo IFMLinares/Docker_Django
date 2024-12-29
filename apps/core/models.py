@@ -1,7 +1,9 @@
 from django.db import models
 from datetime import datetime
+from django.urls import reverse
 from django.forms import model_to_dict
 
+from django.conf import settings
 from apps.core.choices import gender_choices
 
 # Create your models here.
@@ -18,6 +20,14 @@ class Category(models.Model):
     def to_json(self):
         item = model_to_dict(self)
         return item
+    
+    # Método para obtener la URL de actualización
+    def get_update_url(self):
+        return reverse('core:category_edit', kwargs={'pk': self.pk})
+
+    # Método para obtener la URL de eliminación
+    def get_delete_url(self):
+        return reverse('core:category_delete', kwargs={'pk': self.pk})
 
     class Meta:
         verbose_name = 'Categoria'
@@ -32,6 +42,20 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+    # Método para obtener la URL de actualización
+    def get_update_url(self):
+        return reverse('core:product_edit', kwargs={'pk': self.pk})
+
+    # Método para obtener la URL de eliminación
+    def get_delete_url(self):
+        return reverse('core:product_delete', kwargs={'pk': self.pk})
+    
+    # Metodo para obtener la URL de la imagen
+    def get_image_url(self):
+        if self.image:
+            return '{}{}'.format(settings.MEDIA_URL, self.image)
+        return ''
 
     class Meta:
         verbose_name = 'Producto'

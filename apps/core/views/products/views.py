@@ -11,8 +11,8 @@ from apps.core.forms import ProductForm
 
 class ProductListView(LoginRequiredMixin, ListView):
     model = Product
-    template_name = "core/categories/list.html"
-    context_object_name = "categories"
+    template_name = "apps/products/list.html"
+    context_object_name = "objects"
 
     # Método dispath para requerir autenticación
     @method_decorator(csrf_exempt)
@@ -37,12 +37,13 @@ class ProductListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['section'] = "Productos"
         context['title'] = "Listado de Productos"
+        context['url_create'] = reverse_lazy('core:product_create')
         return context
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
-    template_name = "core/categories/create.html"
+    template_name = "apps/generic/create_image.html"
     success_url = reverse_lazy('core:product_list')
 
     def get_context_data(self, **kwargs):
@@ -50,12 +51,13 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         context['section'] = "Productos"
         context['title'] = "Registro de Productos"
         context['subtitle'] = "Formulario de registro"
+        context['return_url'] = self.success_url
         return context
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
-    template_name = "core/categories/create.html"
+    template_name = "apps/generic/create_image.html"
     success_url = reverse_lazy('core:product_list')
 
     def get_context_data(self, **kwargs):
@@ -63,11 +65,12 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         context['section'] = "Productos"
         context['title'] = "Actualización de Productos"
         context['subtitle'] = "Formulario de actualización"
+        context['return_url'] = self.success_url
         return context
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
-    template_name = "core/categories/delete.html"
+    template_name = "apps/categories/delete.html"
     success_url = reverse_lazy('core:product_list')
 
     def get_context_data(self, **kwargs):

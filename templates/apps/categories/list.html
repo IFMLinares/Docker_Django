@@ -46,21 +46,21 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for category in categories %}
+                                            {% for obj in objects %}
                                             <tr>
                                                 <th scope="row">
                                                     <div class="form-check">
                                                         <input class="form-check-input fs-15" type="checkbox" name="checkAll" value="option1">
                                                     </div>
                                                 </th>
-                                                <td>{{ category.id }}</td>
-                                                <td>{{ category.name }}</td>
-                                                <td>{{ category.desc }}</td>
+                                                <td>{{ obj.id }}</td>
+                                                <td>{{ obj.name }}</td>
+                                                <td>{{ obj.desc }}</td>
                                                 <td>
-                                                    <a href="{% url 'core:category_edit' category.id %}" class="btn btn-primary waves-effect waves-light">
+                                                    <a href="{{ obj.get_update_url }}" class="btn btn-primary waves-effect waves-light">
                                                         <i class="bx bx-edit-alt"></i>
                                                     </a>
-                                                    <a href="{% url 'core:category_delete' category.id %}" class="btn btn-danger waves-effect waves-light">
+                                                    <a href="{{ obj.get_delete_url }}" class="btn btn-danger waves-effect waves-light">
                                                         <i class="bx bx-trash-alt"></i>
                                                     </a>
                                                 </td>
@@ -70,7 +70,7 @@
                                     </table>
                                 </div>
                                 <div class="card-footer text-start">
-                                    <a href="{% url 'core:category_create' %}" class="btn btn-primary">
+                                    <a href="{{ url_create }}" class="btn btn-primary">
                                         <i class="bx bx-plus-medical"></i> Nuevo registro
                                     </a>
                                     <button class="btn btn-secondary" onclick="location.reload();">
