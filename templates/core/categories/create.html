@@ -1,4 +1,3 @@
-<!-- filepath: /e:/Programs Installed/xampp/htdocs/Curso Algorisoft/django_cero_master/templates/categories/create.html -->
 {% extends "partials/base.html" %}
 {% load static %}
 {% block title %}{{ title }}{% endblock title %}
@@ -24,7 +23,7 @@
                                     <h5 class="card-title mb-0">{{ subtitle }}</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form method="post" class="p-3">
+                                    <form id="create-form" method="post" class="p-3" novalidate>
                                         {% csrf_token %}
                                         {% if form.errors %}
                                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -49,7 +48,7 @@
                                             {% endfor %}
                                         </div>
                                         <div class="card-footer text-end mt-3">
-                                            <button type="submit" class="btn btn-primary">
+                                            <button type="button" class="btn btn-primary" id="save-button">
                                                 Guardar
                                             </button>
                                             <a href="{% url 'core:category_list' %}" class="btn btn-secondary">
@@ -70,10 +69,11 @@
             {% endblock footer %}
         </div>
         <!-- end main content-->
+<!-- Modal de confirmación -->
 {% endblock content %}
 
 {% block extra_js %}
-
+<script src="{% static 'js/categories/create.js' %}"></script>
 <script>
     $(document).ready(function() {
         {% if form.errors %}

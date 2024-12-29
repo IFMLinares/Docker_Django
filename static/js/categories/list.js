@@ -4,35 +4,9 @@ $(document).ready(function() {
         scrollX: true,
         responsive: true,
         autowidth: false,
+        order: [[1, 'asc']], // Ordena por la segunda columna (índice 1) en orden ascendente
         language: {
             url: languageUrl
         }
     });
-
-    // Manejar el evento de clic del botón de actualizar
-    $('#updateButton').on('click', function() {
-        $('#spinner').removeClass('d-none');
-
-        $.ajax({
-            url: updateUrl,
-            type: 'POST',
-            data: {
-                id: 1
-            },
-            dataType: 'json',
-            success: function(response) {
-                
-                setTimeout(function() {
-                    $('#spinner').addClass('d-none');
-                });
-                
-                $('#scroll-horizontal').DataTable().ajax.reload();
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-
-    });
-
 });

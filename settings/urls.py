@@ -21,8 +21,9 @@ from django.conf import settings
 from apps.homepage.views import IndexView
 
 urlpatterns = [
+    path('', IndexView.as_view()),
+    path('auth/', include('apps.login.urls')),
     path('admin/', admin.site.urls),
     path('erp/',include('apps.core.urls')),
-    path('', IndexView.as_view()),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
