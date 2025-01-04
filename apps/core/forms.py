@@ -1,6 +1,8 @@
 # forms code
 from django.forms import *
-from .models import Category, Product
+from .models import Category, Product, Client
+
+from .choices import gender_choices
 
 class CategoryForm(ModelForm):
 
@@ -90,3 +92,66 @@ class ProductForm(ModelForm):
         if not image:
             return self.instance.image
         return image
+
+class ClientForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(ClientForm, self).__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control',
+                'autocomplete': 'off'
+            })
+        self.fields['names'].widget.attrs.update({
+            'autofocus': 'autofocus',
+            'class': 'form-control col-md-6'
+        })
+        self.fields['surnames'].widget.attrs.update({
+            'class': 'form-control col-md-6'
+        })
+
+    class Meta:
+        model = Client
+        fields = ['names', 'surnames', 'dni', 'date_birthday', 'address', 'gender']
+        labels = {
+            'names': 'Nombre',
+            'surnames': 'Apellidos',
+            'dni': 'Identificación',
+            'date_birthday': 'Fecha de nacimiento',
+            'address': 'Dirección',
+            'gender': 'Género',
+        }
+        widgets = {
+            'names': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese el nombre del cliente',
+                }
+            ),
+            'surnames': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese los apellidos del cliente',
+                }
+            ),
+            'dni': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese la identificación del cliente',
+                }
+            ),
+            'date_birthday': DateInput(
+                attrs={
+                    'type': 'date',
+                }
+            ),
+            'address': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese la dirección del cliente',
+                }
+            ),
+            'gender': Select(
+                choices=gender_choices,
+                attrs={
+                    'placeholder': 'Seleccione el género del cliente',
+                }
+            ),
+        }
+

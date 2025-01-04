@@ -1,6 +1,7 @@
 from django.urls import path, include
 from .views.category.views import *
 from .views.products.views import *
+from .views.clients.views import *
 
 app_name = 'core'
 
@@ -16,4 +17,8 @@ urlpatterns = [
     path('product/create/', ProductCreateView.as_view(), name='product_create'),
     path('product/edit/<int:pk>', ProductUpdateView.as_view(), name='product_edit'),
     path('product/delete/<int:pk>', ProductDeleteView.as_view(), name='product_delete'),
+
+    # Clientes
+    path('client/', ClientListView.as_view(), name='client_list'),
+    path('client/create/', ClientCreateView.as_view(), name='client_create'),
 ]

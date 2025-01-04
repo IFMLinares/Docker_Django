@@ -2,12 +2,16 @@ from django.db import models
 from datetime import datetime
 from django.urls import reverse
 from django.forms import model_to_dict
-
 from django.conf import settings
+
+from crum import get_current_user
+
 from apps.core.choices import gender_choices
 
+from apps.models import BaseModel
+
 # Create your models here.
-class Category(models.Model):
+class Category(BaseModel):
     name = models.CharField(max_length=255, verbose_name='Nombre', unique=True)
     desc = models.CharField(max_length=255, null=True, blank=True, verbose_name='Descripción')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -15,6 +19,15 @@ class Category(models.Model):
     
     def __str__(self):
         return self.name
+    
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        user = get_current_user()
+        if user is not None:
+            if not self.pk:
+                self.user_creation = user
+            else:
+                self.user_updated = user
+        return super(Category, self).save()
     
     # Método para obtener la informacion en Json
     def to_json(self):
@@ -66,12 +79,18 @@ class Client(models.Model):
     names = models.CharField(max_length=150, verbose_name='Nombres')
     surnames = models.CharField(max_length=150, verbose_name='Apellidos')
     dni = models.CharField(max_length=10, unique=True, verbose_name='Dni')
-    birthday = models.DateField(default=datetime.now, verbose_name='Fecha de nacimiento')
+    date_birthday = models.DateField(default=datetime.now, verbose_name='Fecha de nacimiento')
     address = models.CharField(max_length=150, null=True, blank=True, verbose_name='Dirección')
-    sexo = models.CharField(max_length=10, choices=gender_choices, default='male', verbose_name='Sexo')
+    gender = models.CharField(max_length=10, choices=gender_choices, default='male', verbose_name='Sexo')
 
     def __str__(self):
         return self.names
+    
+    def toJson(self):
+        item = model_to_dict(self)
+        item['gender'] = self.get_gender_display()
+        item['date_birthday'] = self.date_birthday.strftime('%Y-%m-%d')
+        return item
 
     class Meta:
         verbose_name = 'Cliente'
