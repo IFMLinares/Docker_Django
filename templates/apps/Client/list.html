@@ -57,16 +57,16 @@
                                                     </div>
                                                 </th>
                                                 <td>{{ obj.id }}</td>
-                                                <td>{{ obj.name }}</td>
+                                                <td>{{ obj.names }}</td>
                                                 <td>{{ obj.surnames }}</td>
                                                 <td>{{ obj.dni }}</td>
-                                                <td>{{ obj.date_birthday }}</td>
+                                                <td>{{ obj.date_birthday|date:"d/m/Y" }}</td>
                                                 <td>{{ obj.gender }}</td>
                                                 <td>
                                                     <a href="{{ obj.get_update_url }}" class="btn btn-primary waves-effect waves-light">
                                                         <i class="bx bx-edit-alt"></i>
                                                     </a>
-                                                    <a href="{{ obj.get_delete_url }}" class="btn btn-danger waves-effect waves-light">
+                                                    <a href="" class="btn btn-danger waves-effect waves-light">
                                                         <i class="bx bx-trash-alt"></i>
                                                     </a>
                                                 </td>

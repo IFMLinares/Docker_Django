@@ -92,6 +92,15 @@ class Client(models.Model):
         item['date_birthday'] = self.date_birthday.strftime('%Y-%m-%d')
         return item
 
+    def get_update_url(self):
+        return reverse('core:client_edit', kwargs={'pk': self.pk})
+
+    # Método para obtener la URL de eliminación
+    # def get_delete_url(self):
+    #     return reverse('core:product_delete', kwargs={'pk': self.pk})
+    
+
+
     class Meta:
         verbose_name = 'Cliente'
         verbose_name_plural = 'Clientes'
