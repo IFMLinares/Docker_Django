@@ -29,6 +29,9 @@ DEFAULT_APPS = [
 ]
 LOCAL_APPS = [
     "apps.core",
+    "apps.login",
+    "apps.homepage",
+    "apps.user",
     ]
 THIRDPARTY_APPS = [
     "crispy_forms",
@@ -116,6 +119,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -125,3 +129,5 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/auth/'
 LOGIN_URL = '/auth/'
 SITE_ID = 1
+
+AUTH_USER_MODEL = 'user.User'
