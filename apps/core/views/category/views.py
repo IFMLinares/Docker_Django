@@ -8,8 +8,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 from apps.core.models import Category
 from apps.core.forms import CategoryForm
+from apps.core.mixings import isSuperuserMixin
 
-class CategoryListView(LoginRequiredMixin, ListView):
+class CategoryListView(LoginRequiredMixin, isSuperuserMixin, ListView):
     model = Category
     template_name = "apps/categories/list.html"
     context_object_name = "objects"

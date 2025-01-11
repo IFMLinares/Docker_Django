@@ -21,7 +21,7 @@ from django.conf import settings
 from apps.homepage.views import IndexView
 
 urlpatterns = [
-    path('', IndexView.as_view()),
+    path('', IndexView.as_view(), name='index'),
     path('auth/', include('apps.login.urls')),
     path('admin/', admin.site.urls),
     path('erp/',include('apps.core.urls')),
