@@ -81,6 +81,7 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
         context['section'] = "Productos"
         context['title'] = "Eliminación de Productos"
         context['subtitle'] = "Formulario de eliminación"
+        context['return_url'] = self.success_url
         return context
 
 

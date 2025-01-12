@@ -13,7 +13,7 @@ from apps.core.models import Category
 from apps.core.forms import CategoryForm
 from apps.core.mixings import isSuperuserMixin, ValidatePermissionMixin
 
-class CategoryListView(LoginRequiredMixin, ListView):
+class CategoryListView(LoginRequiredMixin,ValidatePermissionMixin, ListView):
     model = Category
     template_name = "apps/categories/list.html"
     context_object_name = "objects"
@@ -44,7 +44,7 @@ class CategoryListView(LoginRequiredMixin, ListView):
         context['url_create'] = reverse_lazy('core:category_create')
         return context
 
-class CategoryCreateView(LoginRequiredMixin, CreateView):
+class CategoryCreateView(LoginRequiredMixin,ValidatePermissionMixin, CreateView):
     model = Category
     form_class = CategoryForm
     template_name = "apps/generic/create.html"
@@ -58,7 +58,7 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
         context['return_url'] = self.success_url
         return context
 
-class CategoryUpdateView(LoginRequiredMixin, UpdateView):
+class CategoryUpdateView(LoginRequiredMixin,ValidatePermissionMixin, UpdateView):
     model = Category
     form_class = CategoryForm
     template_name = "apps/generic/create.html"
@@ -72,7 +72,7 @@ class CategoryUpdateView(LoginRequiredMixin, UpdateView):
         context['return_url'] = self.success_url
         return context
 
-class CategoryDeleteView(LoginRequiredMixin, DeleteView):
+class CategoryDeleteView(LoginRequiredMixin,ValidatePermissionMixin, DeleteView):
     model = Category
     template_name = "apps/categories/delete.html"
     success_url = reverse_lazy('core:category_list')
@@ -82,6 +82,7 @@ class CategoryDeleteView(LoginRequiredMixin, DeleteView):
         context['section'] = "Categorias"
         context['title'] = "Eliminación de Categorias"
         context['subtitle'] = "Formulario de eliminación"
+        context['return_url'] = self.success_url
         return context
 
 

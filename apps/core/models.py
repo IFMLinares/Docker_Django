@@ -56,6 +56,13 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
+    def toJson(self):
+        item = model_to_dict(self)
+        item['cate'] = self.cate.to_json()
+        item['image'] = self.get_image_url()
+        item['pvp'] = format(self.pvp, '.2f')
+        return item
+
     # Método para obtener la URL de actualización
     def get_update_url(self):
         return reverse('core:product_edit', kwargs={'pk': self.pk})
@@ -95,6 +102,10 @@ class Client(models.Model):
     def get_update_url(self):
         return reverse('core:client_edit', kwargs={'pk': self.pk})
 
+    def get_image_url(self):
+        if self.image:
+            return '{}{}'.format(settings.MEDIA_URL, self.image)
+        return ''
     # Método para obtener la URL de eliminación
     # def get_delete_url(self):
     #     return reverse('core:product_delete', kwargs={'pk': self.pk})
