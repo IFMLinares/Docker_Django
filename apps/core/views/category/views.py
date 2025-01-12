@@ -1,16 +1,20 @@
+# Django imports
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import JsonResponse, HttpResponseRedirect
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
+
+# Project-specific imports
 from apps.core.models import Category
 from apps.core.forms import CategoryForm
-from apps.core.mixings import isSuperuserMixin
+from apps.core.mixings import isSuperuserMixin, ValidatePermissionMixin
 
-class CategoryListView(LoginRequiredMixin, isSuperuserMixin, ListView):
+class CategoryListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
+    permission_required = 'core.view_category'
     model = Category
     template_name = "apps/categories/list.html"
     context_object_name = "objects"
