@@ -19,6 +19,8 @@ class ValidatePermissionMixin(object):
 
     # Método para obtener los permisos, si es un string lo convierte en tupla
     def get_perms(self):
+        if self.permission_required is None:
+            return ()
         if isinstance(self.permission_required, str):
             return (self.permission_required, )
         return self.permission_required
@@ -32,6 +34,5 @@ class ValidatePermissionMixin(object):
     def dispatch(self, request, *args, **kwargs):
         if request.user.has_perms(self.get_perms()):
             return super().dispatch(request, *args, **kwargs)
-        messages.error(request, 'No tienes permisos para ingresar a este módulo')
         messages.error(request, 'No tienes permisos para ingresar a este módulo')
         return HttpResponseRedirect(self.get_url_redirect())

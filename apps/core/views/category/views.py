@@ -1,17 +1,15 @@
 # Django imports
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.http import JsonResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 # Project-specific imports
 from apps.core.models import Category
 from apps.core.forms import CategoryForm
-from apps.core.mixings import isSuperuserMixin, ValidatePermissionMixin
+from apps.core.mixings import ValidatePermissionMixin
 
 class CategoryListView(LoginRequiredMixin,ValidatePermissionMixin, ListView):
     model = Category

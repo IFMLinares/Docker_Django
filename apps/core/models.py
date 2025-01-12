@@ -102,14 +102,14 @@ class Client(models.Model):
     def get_update_url(self):
         return reverse('core:client_edit', kwargs={'pk': self.pk})
 
+    # Método para obtener la URL de eliminación
+    def get_delete_url(self):
+        return reverse('core:product_delete', kwargs={'pk': self.pk})
+
     def get_image_url(self):
         if self.image:
             return '{}{}'.format(settings.MEDIA_URL, self.image)
         return ''
-    # Método para obtener la URL de eliminación
-    # def get_delete_url(self):
-    #     return reverse('core:product_delete', kwargs={'pk': self.pk})
-    
 
 
     class Meta:

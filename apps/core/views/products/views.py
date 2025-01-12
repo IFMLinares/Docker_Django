@@ -1,18 +1,18 @@
 # Django imports
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 # Project-specific imports
 from apps.core.models import Product
 from apps.core.forms import ProductForm
+from apps.core.mixings import ValidatePermissionMixin
 
-class ProductListView(LoginRequiredMixin, ListView):
+class ProductListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
     model = Product
     template_name = "apps/products/list.html"
     context_object_name = "objects"
@@ -43,7 +43,7 @@ class ProductListView(LoginRequiredMixin, ListView):
         context['url_create'] = reverse_lazy('core:product_create')
         return context
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, ValidatePermissionMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = "apps/generic/create_image.html"
@@ -57,7 +57,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         context['return_url'] = self.success_url
         return context
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, ValidatePermissionMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = "apps/generic/create_image.html"
@@ -71,7 +71,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         context['return_url'] = self.success_url
         return context
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, ValidatePermissionMixin, DeleteView):
     model = Product
     template_name = "apps/categories/delete.html"
     success_url = reverse_lazy('core:product_list')
