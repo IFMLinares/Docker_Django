@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
@@ -31,4 +32,6 @@ class ValidatePermissionMixin(object):
     def dispatch(self, request, *args, **kwargs):
         if request.user.has_perms(self.get_perms()):
             return super().dispatch(request, *args, **kwargs)
+        messages.error(request, 'No tienes permisos para ingresar a este módulo')
+        messages.error(request, 'No tienes permisos para ingresar a este módulo')
         return HttpResponseRedirect(self.get_url_redirect())

@@ -13,8 +13,7 @@ from apps.core.models import Category
 from apps.core.forms import CategoryForm
 from apps.core.mixings import isSuperuserMixin, ValidatePermissionMixin
 
-class CategoryListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
-    permission_required = 'core.view_category'
+class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
     template_name = "apps/categories/list.html"
     context_object_name = "objects"

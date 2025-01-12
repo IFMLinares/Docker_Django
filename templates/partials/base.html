@@ -75,7 +75,20 @@
     <!-- App js -->
     <script src="{% static 'js/app.js'%}"></script>
     {% endblock javascript %}
-
+    <script>
+        // Usar messages con sweetalert
+        {% if messages %}
+            let messageText = "";
+            {% for message in messages %}
+            messageText += "{{ message }}<br>";
+            Swal.fire({
+                icon: "{{ message.tags }}",
+                title: "{{ message.tags }}" == "error" ? "Error!" : "{{ message.tags }}" == "warning" ? "Advertencia" : "{{ message.tags }}" == "success" ? "Éxito" : "Información",
+                html: messageText
+            });
+            {% endfor %}
+        {% endif %}
+    </script>
 </body>
 
 </html>
