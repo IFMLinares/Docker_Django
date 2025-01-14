@@ -1,6 +1,6 @@
 # forms code
 from django.forms import *
-from .models import Category, Product, Client
+from .models import Category, Product, Client, Sale
 
 from .choices import gender_choices
 
@@ -154,4 +154,33 @@ class ClientForm(ModelForm):
                 }
             ),
         }
+
+class SaleForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(SaleForm, self).__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control',
+                'autocomplete': 'off'
+            })
+        self.fields['cli'].widget.attrs['autofocus'] = True
+
+    class Meta:
+        model = Sale
+        fields = '__all__'
+        widgets = {
+            'cli': Select(attrs={
+                'class': 'form-control select2',
+                'style': 'width: 100%'
+                }
+            ),
+            'date_joined': DateInput(
+                format='%Y-%m-%d',
+                attrs={
+                    'type': 'date',
+                }
+            ),
+        }
+
 
