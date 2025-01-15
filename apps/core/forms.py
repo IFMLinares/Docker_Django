@@ -161,7 +161,7 @@ class SaleForm(ModelForm):
         super(SaleForm, self).__init__(*args, **kwargs)
         for field in iter(self.fields):
             self.fields[field].widget.attrs.update({
-                'class': 'form-control',
+                'class': 'form-control bg-light border-0',
                 'autocomplete': 'off'
             })
         self.fields['cli'].widget.attrs['autofocus'] = True
@@ -171,14 +171,22 @@ class SaleForm(ModelForm):
         fields = '__all__'
         widgets = {
             'cli': Select(attrs={
-                'class': 'form-control select2',
-                'style': 'width: 100%'
+                'class': 'form-control',
+                'data-choices': '',
+                'data-choices-search-false': '',
+                'data-choices-removeItem': '',
+                'id': 'choices-payment-type',
                 }
             ),
             'date_joined': DateInput(
                 format='%Y-%m-%d',
                 attrs={
-                    'type': 'date',
+                    'type': 'text',
+                    'class': 'form-control',
+                    'id': 'date-field',
+                    'data-provider': 'flatpickr',
+                    'data-time': 'true',
+                    'placeholder': 'Select Date-time',
                 }
             ),
         }
