@@ -8,6 +8,12 @@
     <!-- Sweet Alert css-->
     <link href="{% static 'libs/sweetalert2/dist/sweetalert2.min.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'css/plugins/touchspin/jquery.bootstrap-touchspin.css' %}" rel="stylesheet" type="text/css" />
+    <!--datatable css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+    <!--datatable responsive css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 {% endblock extra_css %}
 
 {% block content %}
@@ -218,21 +224,10 @@
 <!-- cleave.js -->
 <script src="{% static 'libs/cleave.js/dist/cleave.min.js'%}"></script>
 <!--Invoice create init js-->
-<script src="{% static 'js/pages/invoicecreate.init.js'%}"></script>
+<!-- <script src="{% static 'js/pages/invoicecreate.init.js'%}"></script> -->
 <script src="{% static 'js/plugins/touchspin/jquery.bootstrap-touchspin.js' %}"></script>
-<script>
-    $("input[name='iva']").TouchSpin({
-        min: 0,
-        max: 100,
-        step: 0.1,
-        decimals: 2,
-        boostat: 5,
-        maxboostedstep: 10,
-        postfix: '%',
-        buttondown_class: 'btn btn-secondary',
-        buttonup_class: 'btn btn-secondary',
-    });
-</script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'js/sale/sale.js' %}"></script>
 
 <script>
     $(document).ready(function() {
