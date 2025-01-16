@@ -165,7 +165,11 @@
                                                         </div>
                                                         <div class="mb-2">
                                                             <label for="choices-payment-type" class="form-label text-muted text-uppercase fw-semibold">IVA:</label>
-                                                            {{ form.iva }}
+                                                            <div class="input-step">
+                                                                <button type="button" class='minus'>–</button>
+                                                                {{ form.iva }}
+                                                                <button type="button" class='plus'>+</button>
+                                                            </div>
                                                             <!-- <input class="form-control bg-light border-0" type="text" id="cardNumber" placeholder="xxxx xxxx xxxx xxxx"> -->
                                                         </div>
                                                         <div>
@@ -222,6 +226,23 @@
 <script src="{% static 'js/pages/invoicecreate.init.js'%}"></script>
 <!-- Sweet Alerts js -->
 <script src="{% static 'libs/sweetalert2/dist/sweetalert2.min.js' %}"></script>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.input-step .plus').forEach(function (button) {
+            button.addEventListener('click', function () {
+                var input = this.previousElementSibling;
+                input.stepUp();
+            });
+        });
+
+        document.querySelectorAll('.input-step .minus').forEach(function (button) {
+            button.addEventListener('click', function () {
+                var input = this.nextElementSibling;
+                input.stepDown();
+            });
+        });
+    });
+</script>
 <script>
     $(document).ready(function() {
         {% if form.errors %}

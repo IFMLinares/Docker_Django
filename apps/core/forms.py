@@ -166,6 +166,15 @@ class SaleForm(ModelForm):
             })
         self.fields['cli'].widget.attrs['autofocus'] = True
 
+        self.fields['subtotal'].widget.attrs = {
+            'readonly': True,
+            'class': 'form-control bg-light border-0',
+        }
+        self.fields['total'].widget.attrs = {
+            'readonly': True,
+            'class': 'form-control bg-light border-0',
+        }
+
     class Meta:
         model = Sale
         fields = '__all__'
