@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{% static 'libs/dropzone/dist/dropzone.css'%}" type="text/css" />
     <!-- Sweet Alert css-->
     <link href="{% static 'libs/sweetalert2/dist/sweetalert2.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/plugins/touchspin/jquery.bootstrap-touchspin.css' %}" rel="stylesheet" type="text/css" />
 {% endblock extra_css %}
 
 {% block content %}
@@ -165,11 +166,7 @@
                                                         </div>
                                                         <div class="mb-2">
                                                             <label for="choices-payment-type" class="form-label text-muted text-uppercase fw-semibold">IVA:</label>
-                                                            <div class="input-step">
-                                                                <button type="button" class='minus'>–</button>
                                                                 {{ form.iva }}
-                                                                <button type="button" class='plus'>+</button>
-                                                            </div>
                                                             <!-- <input class="form-control bg-light border-0" type="text" id="cardNumber" placeholder="xxxx xxxx xxxx xxxx"> -->
                                                         </div>
                                                         <div>
@@ -218,31 +215,25 @@
 {% block extra_js %}
 <!-- dropzone min -->
 <script src="{% static 'libs/dropzone/dist/dropzone-min.js'%}"></script>
-
 <!-- cleave.js -->
 <script src="{% static 'libs/cleave.js/dist/cleave.min.js'%}"></script>
-
 <!--Invoice create init js-->
 <script src="{% static 'js/pages/invoicecreate.init.js'%}"></script>
-<!-- Sweet Alerts js -->
-<script src="{% static 'libs/sweetalert2/dist/sweetalert2.min.js' %}"></script>
+<script src="{% static 'js/plugins/touchspin/jquery.bootstrap-touchspin.js' %}"></script>
 <script>
-        document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.input-step .plus').forEach(function (button) {
-            button.addEventListener('click', function () {
-                var input = this.previousElementSibling;
-                input.stepUp();
-            });
-        });
-
-        document.querySelectorAll('.input-step .minus').forEach(function (button) {
-            button.addEventListener('click', function () {
-                var input = this.nextElementSibling;
-                input.stepDown();
-            });
-        });
+    $("input[name='iva']").TouchSpin({
+        min: 0,
+        max: 100,
+        step: 0.1,
+        decimals: 2,
+        boostat: 5,
+        maxboostedstep: 10,
+        postfix: '%',
+        buttondown_class: 'btn btn-secondary',
+        buttonup_class: 'btn btn-secondary',
     });
 </script>
+
 <script>
     $(document).ready(function() {
         {% if form.errors %}

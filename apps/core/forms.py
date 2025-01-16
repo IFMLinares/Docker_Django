@@ -164,22 +164,13 @@ class SaleForm(ModelForm):
                 'class': 'form-control bg-light border-0',
                 'autocomplete': 'off'
             })
-        self.fields['cli'].widget.attrs['autofocus'] = True
-
-        self.fields['subtotal'].widget.attrs = {
-            'readonly': True,
-            'class': 'form-control bg-light border-0',
-        }
-        self.fields['total'].widget.attrs = {
-            'readonly': True,
-            'class': 'form-control bg-light border-0',
-        }
 
     class Meta:
         model = Sale
         fields = '__all__'
         widgets = {
             'cli': Select(attrs={
+                'autofocus': True,
                 'class': 'form-control',
                 'data-choices': '',
                 'data-choices-search-false': '',
@@ -196,6 +187,18 @@ class SaleForm(ModelForm):
                     'data-provider': 'flatpickr',
                     'data-time': 'true',
                     'placeholder': 'Select Date-time',
+                }
+            ),
+            'subtotal': TextInput(
+                attrs={
+                    'readonly': True,
+                    'class': 'form-control bg-light border-0',
+                }
+            ),
+            'total': TextInput(
+                attrs={
+                    'readonly': True,
+                    'class': 'form-control bg-light border-0',
                 }
             ),
         }
