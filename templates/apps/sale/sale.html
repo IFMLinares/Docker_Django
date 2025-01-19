@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+    <!-- Select 2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
 {% endblock extra_css %}
 
 {% block content %}
@@ -57,6 +60,20 @@
                                             </div>
                                         </div><!--end row-->
                                     </div>
+                                    <!-- Ajax select products -->
+                                    <div class="card-body">
+                                        <div class="row g-4">
+                                            <div class="col-lg-12">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1 me-2">
+                                                        <h6 class="fw-semibold">Buscador de productos</h6>
+                                                        <select class="js-example-basic-single form-control" name="search" id="input-search"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end row-->
+                                    </div>
                                     
                                     <div class="card-body">
                                         <div class="row">
@@ -93,65 +110,7 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody id="newlink">
-                                                                    <!-- alerts del texto -->
-                                                                    <tr id="1" class="product">
-                                                                        <th scope="row" class="product-id">1</th>
-                                                                        <td class="text-start">
-                                                                            <div class="mb-2">
-                                                                                <input type="text" class="form-control bg-light border-0" id="productName-1" placeholder="Nombre del producto" required />
-                                                                                <div class="invalid-feedback">
-                                                                                    Please enter a product name
-                                                                                </div>
-                                                                            </div>
-                                                                            <!-- <textarea class="form-control bg-light border-0" id="productDetails-1" rows="2" placeholder="Product Details"></textarea> -->
-                                                                        </td>
-                                                                        <td class="text-start">
-                                                                            <div class="mb-2">
-                                                                                <input type="text" class="form-control bg-light border-0" id="product-cat-1" placeholder="Categoria" required />
-                                                                                <div class="invalid-feedback">
-                                                                                    Please enter a product name
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="text-start">
-                                                                            <div class="mb-2">
-                                                                                <input type="text" class="form-control bg-light border-0" id="prodcut-pvp-1" placeholder="PVP" required />
-                                                                                <div class="invalid-feedback">
-                                                                                    Please enter a product name
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <input type="number" class="form-control product-price bg-light border-0" id="productRate-1" step="0.01" placeholder="0.00" required  />
-                                                                            <div class="invalid-feedback">
-                                                                                Please enter a rate
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="input-step">
-                                                                                <button type="button" class='minus'>–</button>
-                                                                                <input type="number" class="product-quantity" id="product-qty-1" value="0" readonly>
-                                                                                <button type="button" class='plus'>+</button>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="text-end">
-                                                                            <div>
-                                                                                <input type="text" class="form-control bg-light border-0 product-line-price" id="productPrice-1"  placeholder="$0.00" readonly />
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="product-removal">
-                                                                            <a href="javascript:void(0)" class="btn btn-success">Eliminar</a>
-                                                                        </td>
-                                                                    </tr>
                                                                 </tbody>
-                                                                <div>
-                                                                    <tr id="newForm" style="display: none;"><td class="d-none" colspan="5"><p>Add New Form</p></td></tr>
-                                                                        <tr>
-                                                                            <td colspan="5">
-                                                                            <a href="javascript:new_link()" id="add-item" class="btn btn-soft-secondary fw-medium"><i class="ri-add-fill me-1 align-bottom"></i> Add Items</a>
-                                                                        </td>
-                                                                    </tr>
-                                                                </div>
                                                             </table><!--end table-->
                                                         </div>
                                                     </div>
@@ -219,15 +178,17 @@
 {% endblock content %}
 
 {% block extra_js %}
-<!-- dropzone min -->
-<script src="{% static 'libs/dropzone/dist/dropzone-min.js'%}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'js/plugins/touchspin/jquery.bootstrap-touchspin.js' %}"></script>
+<script src="{% static 'js/sale/sale.js' %}"></script>
+
+<!-- <script src="{% static 'libs/dropzone/dist/dropzone-min.js'%}"></script> -->
 <!-- cleave.js -->
-<script src="{% static 'libs/cleave.js/dist/cleave.min.js'%}"></script>
+<!-- <script src="{% static 'libs/cleave.js/dist/cleave.min.js'%}"></script> -->
 <!--Invoice create init js-->
 <!-- <script src="{% static 'js/pages/invoicecreate.init.js'%}"></script> -->
-<script src="{% static 'js/plugins/touchspin/jquery.bootstrap-touchspin.js' %}"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="{% static 'js/sale/sale.js' %}"></script>
+
 
 <script>
     $(document).ready(function() {
