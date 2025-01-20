@@ -1,12 +1,14 @@
 # Django imports
+import json
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 # Project-specific imports
-from apps.core.models import Sale, Product
+from apps.core.models import Sale, Product, DetSale
 from apps.core.forms import SaleForm
 from apps.core.mixings import ValidatePermissionMixin
 
@@ -35,6 +37,27 @@ class SaleCreateView(LoginRequiredMixin, ValidatePermissionMixin, CreateView):
                     item['quantity'] = 1
                     item['subtotal'] = 0.00
                     data.append(item)
+            elif action == 'add':
+                with transaction.atomic():
+                    vents = json.loads(request.POST['vents'])
+                    
+                    sale = Sale()
+                    sale.date_joined = vents['date_joined']
+                    sale.cli_id = vents['cli']
+                    sale.subtotal = float(vents['subtotal'])
+                    sale.iva = float(vents['iva'])
+                    sale.total = float(vents['total'])
+
+                    sale.save()
+                    print(vents)
+                    for i in vents['products']:
+                        det = DetSale()
+                        det.sale_id = sale.id
+                        det.prod_id = i['id']
+                        det.cant = int(i['quantity'])
+                        det.price = float(i['pvp'])
+                        det.subtotal = float(i['subtotal'])
+                        det.save()
             else:
                 data['error'] = 'No se ha ingresado a ninguna opción'
         except Exception as e:
@@ -47,5 +70,6 @@ class SaleCreateView(LoginRequiredMixin, ValidatePermissionMixin, CreateView):
         context['title'] = "Registro de Ventas"
         context['subtitle'] = "Formulario registro"
         context['url_create'] = reverse_lazy('core:client_list')
+        context['action'] = 'add'
         return context
 

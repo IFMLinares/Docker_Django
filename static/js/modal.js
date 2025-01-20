@@ -1,10 +1,10 @@
-function showModal(iconClass, title, message, button1Text, button1Action, button2Text, button2Action) {
+function showModal(iconClass, title, message, button1Text, button1Action, button2Text, button2Action, colorIcon="#25a0e2") {
     var modalHtml = `
         <div class="modal fade bs-example-modal-center" id="dynamic_modal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body text-center p-5">
-                        <i class="${iconClass}" style="font-size: 120px; color: #25a0e2;"></i>
+                        <i class="${iconClass}" style="font-size: 120px; color: ${colorIcon};"></i>
                         <div class="mt-4">
                             <h4 class="mb-3">${title}</h4>
                             <p class="text-muted mb-4">${message}</p>

@@ -175,7 +175,6 @@ class SaleForm(ModelForm):
                 'data-choices': '',
                 'data-choices-search-false': '',
                 'data-choices-removeItem': '',
-                'id': 'choices-payment-type',
                 }
             ),
             'date_joined': DateInput(
