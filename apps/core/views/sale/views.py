@@ -3,7 +3,7 @@ import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView, DeleteView
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -12,12 +12,28 @@ from apps.core.models import Sale, Product, DetSale
 from apps.core.forms import SaleForm
 from apps.core.mixings import ValidatePermissionMixin
 
+class SaleListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
+    model = Sale
+    template_name = "apps/sale/list.html"
+    context_object_name = 'objects'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['section'] = "Ventas"
+        context['title'] = "Listado de Ventas"
+        context['url_create'] = reverse_lazy('core:sale_create')
+        return context
+
 class SaleCreateView(LoginRequiredMixin, ValidatePermissionMixin, CreateView):
     model = Sale
     form_class = SaleForm
     template_name = "apps/sale/sale.html"
     context_object_name = 'objects'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('core:sale_list')
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -72,4 +88,19 @@ class SaleCreateView(LoginRequiredMixin, ValidatePermissionMixin, CreateView):
         context['url_create'] = reverse_lazy('core:client_list')
         context['action'] = 'add'
         return context
+
+class SaleDeleteView(LoginRequiredMixin, ValidatePermissionMixin, DeleteView):
+    model = Sale
+    template_name = "apps/categories/delete.html"
+    success_url = reverse_lazy('core:sale_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['section'] = "Ventas"
+        context['title'] = "Eliminación de Ventas"
+        context['subtitle'] = "Formulario de eliminación"
+        context['return_url'] = self.success_url
+        return context
+
+
 

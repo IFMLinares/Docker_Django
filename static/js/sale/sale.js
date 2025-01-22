@@ -225,7 +225,7 @@ $(document).ready(function () {
                 '¿Estas seguro de realizar la siguiente acción?',
                 parameters,
                 function(){
-                    location.href = '/'
+                    location.href = '/erp/sale/list/';
                 }
             );
                 

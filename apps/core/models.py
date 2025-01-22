@@ -124,6 +124,11 @@ class Sale(models.Model):
     iva = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
     total = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
 
+    # Método para obtener la URL de eliminación
+    def get_delete_url(self):
+        return reverse('core:sale_delete', kwargs={'pk': self.pk})
+    
+
     def __str__(self):
         return self.cli.names
 
