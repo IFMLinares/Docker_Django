@@ -25,14 +25,17 @@ class SaleListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
         data = {}
         try:
             action = request.POST['action']
+            print(self.request.POST)
             if action == 'search_details_prod':
                 data = []
-                for i in DetSale.objects.filter(sal_id=request.POST['id']):
+                for i in DetSale.objects.filter(sale_id=request.POST['id']):
                     data.append(i.toJson())
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
             data['error'] = str(e)
+        print(data)
+        return JsonResponse(data, safe=False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

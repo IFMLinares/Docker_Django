@@ -128,6 +128,15 @@ class Sale(models.Model):
     def get_delete_url(self):
         return reverse('core:sale_delete', kwargs={'pk': self.pk})
 
+    def toJson(self):
+        item = model_to_dict(self)
+        item['cli'] = self.cli.toJson()
+        item['date_joined'] = self.date_joined.strftime('%Y-%m-%d')
+        item['subtotal'] = format(self.subtotal, '.2f')
+        item['iva'] = format(self.iva, '.2f')
+        item['total'] = format(self.total, '.2f')
+        item['det'] = [i.toJson() for i in self.detsale_set.all()]
+
     def __str__(self):
         return self.cli.names
 
