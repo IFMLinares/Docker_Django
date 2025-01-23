@@ -69,6 +69,9 @@
                                                     <a href="{{ obj.get_delete_url }}" class="btn btn-danger waves-effect waves-light">
                                                         <i class="bx bx-trash-alt"></i>
                                                     </a>
+                                                    <a href="#" rel="details" class="btn btn-success waves-effect waves-light">
+                                                        <i class="bx bx-search-alt"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                             {% endfor %}
@@ -113,5 +116,7 @@
 <script>
     const languageUrl = "{% static 'js/datatables/es.json' %}";
 </script>
-<script src="{% static 'js/categories/list.js' %}"></script>
+<script src="{% static 'js/sale/list.js' %}"></script>
+<script>
+</script>
 {% endblock extra_js %}

@@ -127,7 +127,6 @@ class Sale(models.Model):
     # Método para obtener la URL de eliminación
     def get_delete_url(self):
         return reverse('core:sale_delete', kwargs={'pk': self.pk})
-    
 
     def __str__(self):
         return self.cli.names
@@ -146,6 +145,13 @@ class DetSale(models.Model):
 
     def __str__(self):
         return self.prod.name
+
+    def toJson(self):
+        item = model_to_dict(self, exclude=['sale'])
+        item['prod'] = self.prod.toJson()
+        item['price'] = format(self.price, '.2f')
+        item['subtotal'] = format(self.subtotal, '.2f')
+        return item
 
     class Meta:
         verbose_name = 'Detalle de Venta'

@@ -21,6 +21,19 @@ class SaleListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'search_details_prod':
+                data = []
+                for i in DetSale.objects.filter(sal_id=request.POST['id']):
+                    data.append(i.toJson())
+            else:
+                data['error'] = 'Ha ocurrido un error'
+        except Exception as e:
+            data['error'] = str(e)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['section'] = "Ventas"
