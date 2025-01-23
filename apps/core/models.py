@@ -102,7 +102,6 @@ class Client(models.Model):
     def get_update_url(self):
         return reverse('core:client_edit', kwargs={'pk': self.pk})
 
-    # Método para obtener la URL de eliminación
     def get_delete_url(self):
         return reverse('core:client_delete', kwargs={'pk': self.pk})
 
@@ -110,7 +109,6 @@ class Client(models.Model):
         if self.image:
             return '{}{}'.format(settings.MEDIA_URL, self.image)
         return ''
-
 
     class Meta:
         verbose_name = 'Cliente'
@@ -124,7 +122,9 @@ class Sale(models.Model):
     iva = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
     total = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
 
-    # Método para obtener la URL de eliminación
+    def get_update_url(self):
+        return reverse('core:sale_edit', kwargs={'pk': self.pk})
+
     def get_delete_url(self):
         return reverse('core:sale_delete', kwargs={'pk': self.pk})
 

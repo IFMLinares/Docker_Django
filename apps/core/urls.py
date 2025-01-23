@@ -28,5 +28,6 @@ urlpatterns = [
     # Sales urls
     path('sale/list/', SaleListView.as_view(), name='sale_list'),
     path('sale/create/', SaleCreateView.as_view(), name='sale_create'),
+    path('sale/edit/<int:pk>', SaleUpdateView.as_view(), name='sale_edit'),
     path('sale/delete/<int:pk>', SaleDeleteView.as_view(), name='sale_delete'),
 ]

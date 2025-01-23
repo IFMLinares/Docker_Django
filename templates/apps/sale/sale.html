@@ -209,9 +209,11 @@
 
 <script>
     const languageUrl = "{% static 'js/datatables/es.json' %}";
+    const det = {{ det|safe }};
 </script>
 <script src="{% static 'js/sale/sale.js' %}"></script>
-
+<script>
+</script>
 
 <script>
     $(document).ready(function() {

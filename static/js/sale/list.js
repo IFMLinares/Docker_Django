@@ -26,22 +26,6 @@ $(document).ready(function() {
                     return '<div class="form-check"><input class="form-check-input fs-15" type="checkbox" name="checkAll" value="option1"></div>';
                 }
             },
-            {
-                targets: 7,
-                render: function(data, type, row) {
-                    return `
-                        <a href="${row.get_update_url}" class="btn btn-primary waves-effect waves-light">
-                            <i class="bx bx-edit-alt"></i>
-                        </a>
-                        <a href="${row.get_delete_url}" class="btn btn-danger waves-effect waves-light">
-                            <i class="bx bx-trash-alt"></i>
-                        </a>
-                        <a href="#" rel="details" class="btn btn-success waves-effect waves-light">
-                            <i class="bx bx-search-alt"></i>
-                        </a>
-                    `;
-                }
-            }
         ]
     });
 

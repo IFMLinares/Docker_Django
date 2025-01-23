@@ -167,11 +167,10 @@ $(document).ready(function () {
         showModal(
             'bx bxs-calendar-exclamation', // iconClass
             'Confirmación', // title
-            '¿Estás seguro de que deseas eliminar todos los productos?', // message
+            '¿Estás seguro de que deseas eliminar este los productos?', // message
             'Cancelar', // button1Text
             'close', // button1Action
             'Confirmar', // button2Text
-            'colorIcon', '#f06548',
             function() { // button2Action
                 vents.items.products.splice(tr.row,1);
                 vents.list();
@@ -232,5 +231,7 @@ $(document).ready(function () {
         }
     });
 
+    console.log(det)
+    vents.items.products = det
     vents.list();
 });
