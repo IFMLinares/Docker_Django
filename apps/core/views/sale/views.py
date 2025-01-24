@@ -3,10 +3,18 @@ import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DeleteView, UpdateView
-from django.http import JsonResponse
+from django.views.generic import CreateView, ListView, DeleteView, UpdateView, View
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+
+# Third-party imports
+import os
+from django.conf import settings
+from django.template import Context
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
 # Project-specific imports
 from apps.core.models import Sale, Product, DetSale
 from apps.core.forms import SaleForm
@@ -192,5 +200,46 @@ class SaleDeleteView(LoginRequiredMixin, ValidatePermissionMixin, DeleteView):
         context['return_url'] = self.success_url
         return context
 
+class SaleInvocePdfView(View):
 
+    def link_callback(self, uri, rel):
+        sUrl = settings.STATIC_URL
+        sRoot = settings.STATIC_ROOT
+        mUrl = settings.MEDIA_URL
+        mRoot = settings.MEDIA_ROOT
+        
+        if uri.startswith(mUrl):
+            path = os.path.join(mRoot, uri.replace(mUrl, ""))
+        elif uri.startswith(sUrl):
+            path = os.path.join(sRoot, uri.replace(sUrl, ""))
+        else:
+            return uri
+
+        if not os.path.isfile(path):
+            raise Exception(
+                'media uri must start with %s or %s' % (sUrl, mUrl)
+            )
+        return path
+
+
+    def get(self, request, *args, **kwargs):
+        try:
+            template = get_template('apps/sale/invoice.html')
+            context = {
+                'sale': Sale.objects.get(pk=self.kwargs['pk']),
+                'comp': {'name': 'Sistema de Ventas', 'ruc': '123456789', 'address': 'Av. Siempre Viva'},
+                'icon': '{}{}'.format(settings.STATIC_URL , 'images/logo-dark.png')
+            }
+            html = template.render(context)
+            response = HttpResponse(content_type='application/pdf')
+            # response['Content-Disposition'] = 'attachment; filename="invoice.pdf"'
+            pisaStatus = pisa.CreatePDF(
+                html, 
+                dest=response,
+                link_callback= self.link_callback
+            )
+            return response
+        except:
+            pass
+        return HttpResponseRedirect(reverse_lazy('core:sale_list'))
 

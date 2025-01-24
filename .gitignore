@@ -12,3 +12,4 @@ docker-compose.yml
 Dockerfile.txt
 Dockerfile
 media/
+staticfiles/

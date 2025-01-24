@@ -30,4 +30,5 @@ urlpatterns = [
     path('sale/create/', SaleCreateView.as_view(), name='sale_create'),
     path('sale/edit/<int:pk>', SaleUpdateView.as_view(), name='sale_edit'),
     path('sale/delete/<int:pk>', SaleDeleteView.as_view(), name='sale_delete'),
+    path('sale/invoice/<int:pk>', SaleInvocePdfView.as_view(), name='sale_invoice_pdf'),
 ]
