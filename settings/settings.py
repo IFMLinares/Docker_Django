@@ -32,6 +32,7 @@ LOCAL_APPS = [
     "apps.core",
     "apps.login",
     "apps.homepage",
+    "apps.reports",
     ]
 THIRDPARTY_APPS = [
     "crispy_forms",

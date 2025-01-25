@@ -24,6 +24,7 @@ urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('auth/', include('apps.login.urls')),
     path('admin/', admin.site.urls),
-    path('erp/',include('apps.core.urls')),
+    path('erp/', include('apps.core.urls')),
+    path('reports/', include('apps.reports.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
