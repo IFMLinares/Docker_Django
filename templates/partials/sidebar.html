@@ -103,7 +103,7 @@
                                 <ul class="nav nav-sm flex-column">
                                     
                                     <li class="nav-item">
-                                        <a href="{% url 'core:sale_list' %}" class="nav-link" data-key="t-client-add">Listado</a>
+                                        <a href="{% url 'core:sale_list' %}" class="nav-link" data-key="t-client-list">Listado</a>
                                     </li>
                                 </ul>
                             </div>
@@ -112,6 +112,20 @@
                                     
                                     <li class="nav-item">
                                         <a href="{% url 'core:sale_create' %}" class="nav-link" data-key="t-client-add">Añadir</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarReports" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" aria-controls="sidebarReports">
+                                <i data-feather="bar-chart-2" class="icon-dual"></i> <span data-key="t-report">Reportes</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarReports">
+                                <ul class="nav nav-sm flex-column">
+                                    
+                                    <li class="nav-item">
+                                        <a href="{% url 'report:sale_report' %}" class="nav-link" data-key="t-report-sales">Ventas</a>
                                     </li>
                                 </ul>
                             </div>
