@@ -98,6 +98,7 @@ class SaleCreateView(LoginRequiredMixin, ValidatePermissionMixin, CreateView):
                         det.price = float(i['pvp'])
                         det.subtotal = float(i['subtotal'])
                         det.save()
+                    data = {'id': sale.id}
             else:
                 data['error'] = 'No se ha ingresado a ninguna opción'
         except Exception as e:
@@ -221,13 +222,14 @@ class SaleInvocePdfView(View):
             )
         return path
 
-
     def get(self, request, *args, **kwargs):
         try:
             template = get_template('apps/sale/invoice.html')
             context = {
+                # title con nro de venta
+                'title': 'Venta nro. #{}'.format(self.kwargs['pk']),
                 'sale': Sale.objects.get(pk=self.kwargs['pk']),
-                'comp': {'name': 'Sistema de Ventas', 'ruc': '123456789', 'address': 'Av. Siempre Viva'},
+                'comp': {'name': 'Sistema de Ventas', 'ruc': '', 'address': 'Av. Siempre Viva'},
                 'icon': '{}{}'.format(settings.STATIC_URL , 'images/logo-dark.png')
             }
             html = template.render(context)

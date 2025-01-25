@@ -156,7 +156,8 @@ $(document).ready(function () {
                     vents.items.products = [];
                     vents.list();
                     $('#dynamic_modal').modal('hide');
-                }
+                },
+                colorIcon = '#f06548'
             );
         }
     });
@@ -175,7 +176,8 @@ $(document).ready(function () {
                 vents.items.products.splice(tr.row,1);
                 vents.list();
                 $('#dynamic_modal').modal('hide');
-            }
+            },
+            colorIcon = '#f06548'
         );
     })
     .on('change', 'input[name="cant"]', function(){
@@ -201,11 +203,11 @@ $(document).ready(function () {
                 'Por favor seleccione al menos 1 item en su detalle de venta', // message
                 'Cancelar', // button1Text
                 'close', // button1Action
-                'Cerrar', // button2Text
-                'colorIcon', '#f06548',
+                'Cerrar', // button2Text¿
                 function() {
                     $('#dynamic_modal').modal('hide');
-                }
+                },
+                colorIcon = '#f06548'
             );
         }else{
             vents.items.date_joined = $('input[name="date_joined"]').val();
@@ -223,8 +225,26 @@ $(document).ready(function () {
                 'Notificación',
                 '¿Estas seguro de realizar la siguiente acción?',
                 parameters,
-                function(){
-                    location.href = '/erp/sale/list/';
+                function(response){
+                    // location.href = '/erp/sale/list/';
+                    showModal(
+                        'bx bxs-printer', // iconClass
+                        'Confirmación', // title
+                        '¿Quieres imprimir la factura?', // message
+                        'No', // button1Text
+                        function() { location.href = '/erp/sale/list/'; }, // button1Action
+                        'Sí', // button2Text
+                        function() { 
+                            var newTab = window.open('/erp/sale/invoice/' + response.id, '_blank');
+                            if (newTab) {
+                                newTab.focus();
+                                location.href = '/erp/sale/list/';
+                            } else {
+                                alert('Por favor, permita las ventanas emergentes para este sitio.');
+                            }
+                        },
+                        colorIcon="#25a0e2", id="pdf_modal", id_button_1="pdf_button_1", id_button_2="pdf_button_2"
+                    );
                 }
             );
                 

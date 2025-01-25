@@ -128,6 +128,9 @@ class Sale(models.Model):
     def get_delete_url(self):
         return reverse('core:sale_delete', kwargs={'pk': self.pk})
 
+    def get_invoice_url(self):
+        return reverse('core:sale_invoice_pdf', kwargs={'pk': self.pk})
+
     def toJson(self):
         item = model_to_dict(self)
         item['cli'] = self.cli.toJson()

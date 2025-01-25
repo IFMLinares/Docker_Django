@@ -15,10 +15,11 @@ function message_error(obj) {
         icon: 'error'
     });
 }
+
 function submit_with_ajax(url, title, content, parameters, callback) {
     console.log('Parameters before AJAX call:', parameters);
     showModal(
-        'fas fa-info', // iconClass
+        'bx bxs-save', // iconClass
         title, // title
         content, // message
         'Cancelar', // button1Text
@@ -34,8 +35,9 @@ function submit_with_ajax(url, title, content, parameters, callback) {
                 dataType: 'json'
             }).done(function (data) {
                 console.log(data);
+                // cerrar modal 
                 if (!data.hasOwnProperty('error')) {
-                    callback();
+                    callback(data);
                     return false;
                 }
                 message_error(data.error);
@@ -44,6 +46,10 @@ function submit_with_ajax(url, title, content, parameters, callback) {
             }).always(function (data) {
 
             });
-        }
+        },
+        colorIcon="#25a0e2",
+        id="ajax_modal", 
+        id_button_1="button1_ajax", 
+        id_button_2="button2_ajax"
     );
 }
