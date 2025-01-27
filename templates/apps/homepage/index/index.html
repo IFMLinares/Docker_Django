@@ -5,32 +5,55 @@
 
 {% block extra_css %}
 <!-- Add your custom CSS here -->
+<link rel="stylesheet" href="{% static 'libs/apexcharts/dist/apexcharts.css'%}">
 {% endblock extra_css %}
 
 {% block content %}
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                    {% block pagetitle %}
-                    {% include "partials/page-title.html" with pagetitle=section title=title %}
-                    {% endblock pagetitle %}
-                    
-                    <!-- Your content goes here -->
-                    
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            {% block pagetitle %}
+            {% include "partials/page-title.html" with pagetitle=section title=title %}
+            {% endblock pagetitle %}
+
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title mb-0 text-center">Reporte de ventas del año 2025</h4>
+                        </div><!-- end card header -->
+
+                        <div class="card-body">
+                            <div id="chart" data-colors='["--vz-info", "--vz-primary", "--vz-success"]' class="apex-charts" dir="ltr"></div>
+                        </div><!-- end card-body -->
+                    </div><!-- end card -->
                 </div>
-                <!-- container-fluid -->
+                <!-- end col -->
             </div>
-            <!-- End Page-content -->
-            {% block footer %}
-            {% include "partials/footer.html" %}
-            {% endblock footer %}
+
+            <!-- Your content goes here -->
+
         </div>
-        <!-- end main content-->
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+    {% block footer %}
+    {% include "partials/footer.html" %}
+    {% endblock footer %}
+</div>
+<!-- end main content-->
 {% endblock content %}
 
 {% block extra_js %}
+<script>
+    let data_graph = {{ graph_sales_year_months|safe }};
+</script>
+<script src="{% static 'libs/apexcharts/dist/apexcharts.min.js'%}"></script>
+<script src="{% static 'js/utils.js' %}"></script>
+<script src="{% static 'js/homepage/homepage.js' %}"></script>
 <!-- Add your custom JS here -->
 {% endblock extra_js %}
