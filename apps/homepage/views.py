@@ -1,4 +1,5 @@
 from datetime import datetime
+from random import randint
 
 from django.shortcuts import render
 from django.views.generic import TemplateView
@@ -11,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
 
-from apps.core.models import Sale
+from apps.core.models import Sale, Product, DetSale
 
 # Create your views here.
 
@@ -28,12 +29,20 @@ class IndexView(LoginRequiredMixin, TemplateView):
         try:
             action = request.POST.get('action', '')
             if action == 'get_graph_sales_year_month':
-                data = self.get__graph_sales_year_months()
+                data = self.get_graph_sales_year_months()
+            elif action == 'get_graph_sales_products_year_month':
+                data = {
+                    'name': 'Productos vendidos',
+                    'data': self.get_graph_sales_products_year_month()
+                }
+            elif action == 'get_graph_online':
+                data = {'y': randint(1, 100)}
+                print(data)
         except Exception as e:
             pass
         return JsonResponse(data, safe=False)
 
-    def get__graph_sales_year_months(self):
+    def get_graph_sales_year_months(self):
         data = []
         try:
             year = datetime.now().year
@@ -47,9 +56,27 @@ class IndexView(LoginRequiredMixin, TemplateView):
             pass
         return data
 
+    def get_graph_sales_products_year_month(self):
+        data = []
+        year = datetime.now().year
+        month = datetime.now().month
+        try:
+            for p in Product.objects.all():
+                total = DetSale.objects.filter(sale__date_joined__year=year, sale__date_joined__month=month, prod_id=p.id).aggregate(
+                    r=Coalesce(Sum('subtotal'), 0, output_field=DecimalField())
+                ).get('r')
+                if total > 0:
+                    data.append({
+                        'name': p.name,
+                        'y': float(total)
+                    })
+        except:
+            pass
+        return data
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['section'] = "Panel administrador"
         context['title'] = "Inicio"
-        context['graph_sales_year_months'] = self.get__graph_sales_year_months()
+        # context['graph_sales_year_months'] = self.get_graph_sales_year_months()
         return context
