@@ -7,6 +7,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from apps.core.models import Client
 from apps.core.forms import ClientForm
 from apps.core.mixings import ValidatePermissionMixin
+from apps.mixings import FormMessagesMixin
 
 class ClientListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
     model = Client
@@ -20,7 +21,7 @@ class ClientListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
         context['url_create'] = reverse_lazy('core:client_create')
         return context
 
-class ClientCreateView(LoginRequiredMixin, ValidatePermissionMixin, CreateView):
+class ClientCreateView(LoginRequiredMixin, ValidatePermissionMixin, FormMessagesMixin, CreateView):
     model = Client
     form_class = ClientForm
     template_name = "apps/generic/create.html"
@@ -35,7 +36,7 @@ class ClientCreateView(LoginRequiredMixin, ValidatePermissionMixin, CreateView):
         context['url_create'] = reverse_lazy('core:client_list')
         return context
 
-class ClientUpdateView(LoginRequiredMixin, ValidatePermissionMixin, UpdateView):
+class ClientUpdateView(LoginRequiredMixin, ValidatePermissionMixin, FormMessagesMixin, UpdateView):
     model = Client
     form_class = ClientForm
     template_name = "apps/generic/create.html"
@@ -50,7 +51,7 @@ class ClientUpdateView(LoginRequiredMixin, ValidatePermissionMixin, UpdateView):
         context['return_url'] = self.success_url
         return context
     
-class ClientDeleteView(LoginRequiredMixin, ValidatePermissionMixin, DeleteView):
+class ClientDeleteView(LoginRequiredMixin, ValidatePermissionMixin, FormMessagesMixin, DeleteView):
     model = Client
     template_name = "apps/categories/delete.html"
     success_url = reverse_lazy('core:client_list')

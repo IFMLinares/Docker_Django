@@ -43,6 +43,7 @@ class UserForm(ModelForm):
                     }
                 ),
             'password': PasswordInput(
+                render_value=True,
                 attrs={
                     'placeholder': 'Ingrese su contraseña',
                     }
@@ -50,8 +51,20 @@ class UserForm(ModelForm):
         }
 
     def save(self, commit=True):
-        user = super(UserForm, self).save(commit=False)
-        user.set_password(self.cleaned_data['password'])
-        if commit:
-            user.save()
-        return user
+        try:
+            if self.is_valid():
+                pwd = self.cleaned_data['password']
+                u = super(UserForm, self).save(commit=False)
+                if u.pk is None:
+                    u.set_password(pwd)
+                else:
+                    user = User.objects.get(pk=u.pk)
+                    if user.password != pwd:
+                        u.set_password(pwd)
+                if commit:
+                    u.save()
+                return u
+            else:
+                raise ValueError(self.errors)
+        except Exception as e:
+            raise e

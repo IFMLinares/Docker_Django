@@ -140,6 +140,11 @@
                             <div class="collapse menu-dropdown" id="sidebarUsers">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
+                                        <a href="{% url 'user:user_create' %}" class="nav-link" data-key="t-user-add">Añadir</a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
                                         <a href="{% url 'user:user_list' %}" class="nav-link" data-key="t-user-list">Listado</a>
                                     </li>
                                 </ul>

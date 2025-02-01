@@ -19,6 +19,7 @@ from xhtml2pdf import pisa
 from apps.core.models import Sale, Product, DetSale
 from apps.core.forms import SaleForm
 from apps.core.mixings import ValidatePermissionMixin
+from apps.mixings import FormMessagesMixin
 
 class SaleListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
     model = Sale
@@ -121,6 +122,7 @@ class SaleUpdateView(LoginRequiredMixin, ValidatePermissionMixin, UpdateView):
     template_name = "apps/sale/sale.html"
     context_object_name = 'objects'
     success_url = reverse_lazy('core:sale_list')
+    type_operation = 'update'
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -192,6 +194,7 @@ class SaleDeleteView(LoginRequiredMixin, ValidatePermissionMixin, DeleteView):
     model = Sale
     template_name = "apps/categories/delete.html"
     success_url = reverse_lazy('core:sale_list')
+    type_operation = 'delete'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

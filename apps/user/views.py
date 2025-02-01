@@ -5,11 +5,12 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.shortcuts import render
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 # Create your views here.
 from apps.user.models import User
 from apps.user.forms import UserForm
 from apps.core.mixings import ValidatePermissionMixin
+from apps.mixings import FormMessagesMixin
 
 class UserListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
     model = User
@@ -42,7 +43,7 @@ class UserListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
         context['url_create'] = reverse_lazy('user:user_create')
         return context
 
-class UserCreateView(LoginRequiredMixin, ValidatePermissionMixin, CreateView):
+class UserCreateView(LoginRequiredMixin, ValidatePermissionMixin,FormMessagesMixin, CreateView):
     model = User
     form_class = UserForm
     template_name = "apps/generic/create_image.html"
@@ -53,6 +54,33 @@ class UserCreateView(LoginRequiredMixin, ValidatePermissionMixin, CreateView):
         context['section'] = "Usuarios"
         context['title'] = "Registro de usuarios"
         context['subtitle'] = "Formulario de registro"
+        context['return_url'] = self.success_url
+        return context
+
+class UserUpdate(LoginRequiredMixin, ValidatePermissionMixin,FormMessagesMixin, UpdateView):
+    model = User
+    form_class = UserForm
+    template_name = "apps/generic/create_image.html"
+    success_url = reverse_lazy('user:user_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['section'] = "Usuarios"
+        context['title'] = "Actualización de usuarios"
+        context['subtitle'] = "Formulario de actualización"
+        context['return_url'] = self.success_url
+        return context
+
+class UserDeleteView(LoginRequiredMixin,ValidatePermissionMixin,FormMessagesMixin, DeleteView):
+    model = User
+    template_name = "apps/categories/delete.html"
+    success_url = reverse_lazy('user:user_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['section'] = "Usuarios"
+        context['title'] = "Eliminación de usuarios"
+        context['subtitle'] = "Formulario de eliminación"
         context['return_url'] = self.success_url
         return context
 

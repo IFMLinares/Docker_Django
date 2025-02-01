@@ -10,6 +10,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from apps.core.models import Category
 from apps.core.forms import CategoryForm
 from apps.core.mixings import ValidatePermissionMixin
+from apps.mixings import FormMessagesMixin
 
 class CategoryListView(LoginRequiredMixin,ValidatePermissionMixin, ListView):
     model = Category
@@ -42,7 +43,7 @@ class CategoryListView(LoginRequiredMixin,ValidatePermissionMixin, ListView):
         context['url_create'] = reverse_lazy('core:category_create')
         return context
 
-class CategoryCreateView(LoginRequiredMixin,ValidatePermissionMixin, CreateView):
+class CategoryCreateView(LoginRequiredMixin,ValidatePermissionMixin, FormMessagesMixin, CreateView ):
     model = Category
     form_class = CategoryForm
     template_name = "apps/generic/create.html"
@@ -56,11 +57,12 @@ class CategoryCreateView(LoginRequiredMixin,ValidatePermissionMixin, CreateView)
         context['return_url'] = self.success_url
         return context
 
-class CategoryUpdateView(LoginRequiredMixin,ValidatePermissionMixin, UpdateView):
+class CategoryUpdateView(LoginRequiredMixin,ValidatePermissionMixin, FormMessagesMixin, UpdateView ):
     model = Category
     form_class = CategoryForm
     template_name = "apps/generic/create.html"
     success_url = reverse_lazy('core:category_list')
+    type_operation = 'update'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -70,10 +72,11 @@ class CategoryUpdateView(LoginRequiredMixin,ValidatePermissionMixin, UpdateView)
         context['return_url'] = self.success_url
         return context
 
-class CategoryDeleteView(LoginRequiredMixin,ValidatePermissionMixin, DeleteView):
+class CategoryDeleteView(LoginRequiredMixin,ValidatePermissionMixin, FormMessagesMixin, DeleteView ):
     model = Category
     template_name = "apps/categories/delete.html"
     success_url = reverse_lazy('core:category_list')
+    type_operation = 'delete'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

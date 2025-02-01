@@ -11,6 +11,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from apps.core.models import Product
 from apps.core.forms import ProductForm
 from apps.core.mixings import ValidatePermissionMixin
+from apps.mixings import FormMessagesMixin
 
 class ProductListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
     model = Product
@@ -43,7 +44,7 @@ class ProductListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
         context['url_create'] = reverse_lazy('core:product_create')
         return context
 
-class ProductCreateView(LoginRequiredMixin, ValidatePermissionMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, ValidatePermissionMixin, FormMessagesMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = "apps/generic/create_image.html"
@@ -57,7 +58,7 @@ class ProductCreateView(LoginRequiredMixin, ValidatePermissionMixin, CreateView)
         context['return_url'] = self.success_url
         return context
 
-class ProductUpdateView(LoginRequiredMixin, ValidatePermissionMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, ValidatePermissionMixin, FormMessagesMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = "apps/generic/create_image.html"
@@ -71,7 +72,7 @@ class ProductUpdateView(LoginRequiredMixin, ValidatePermissionMixin, UpdateView)
         context['return_url'] = self.success_url
         return context
 
-class ProductDeleteView(LoginRequiredMixin, ValidatePermissionMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, ValidatePermissionMixin, FormMessagesMixin, DeleteView):
     model = Product
     template_name = "apps/categories/delete.html"
     success_url = reverse_lazy('core:product_list')

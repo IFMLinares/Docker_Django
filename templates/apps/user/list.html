@@ -63,7 +63,7 @@
                                                 <td>{{ obj.date_joined }}</td>
                                                 <td class="text-center">
                                                     {% if obj.image %}
-                                                    <img src="{{ obj.get_image }}" alt="{{ obj.first_name }}" class="rounded-circle" height="48">
+                                                    <img src="{{ obj.get_image_url }}" alt="{{ obj.first_name }}" class="rounded-circle" height="48">
                                                     {% else %}
                                                         <i data-feather="camera-off" class="icon-dual"></i>
                                                     {% endif %}

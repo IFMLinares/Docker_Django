@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 from django.forms import model_to_dict
 
 from django.conf import settings
@@ -23,7 +24,17 @@ class User(AbstractUser):
         item['image'] = self.get_image_url()
         return item
     
-    def save(self, *args, **kwargs):
-        if self.pk is not None:
-            self.set_password(self.password)
-        super().save(*args, **kwargs)
+    def get_update_url(self):
+        return reverse('user:user_update', kwargs={'pk': self.pk})
+    
+    def get_delete_url(self):
+        return reverse('user:user_delete', kwargs={'pk': self.pk})
+
+    # def save(self, *args, **kwargs):
+    #     if self.pk is not None:
+    #         self.set_password(self.password)
+    #     else:
+    #         user = User.objects.get(pk=self.pk)
+    #         if user.password != self.password:
+    #             self.set_password(self.password)
+    #     super().save(*args, **kwargs)
