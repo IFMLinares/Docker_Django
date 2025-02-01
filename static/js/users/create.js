@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('#save-button').on('click', function() {
-        event.preventDefault();
         var succes_form = document.getElementById('create-form').checkValidity();
+        console.log(succes_form);
         if (succes_form) {
             showModal(
                 'bx bxs-save',

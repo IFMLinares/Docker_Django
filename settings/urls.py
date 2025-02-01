@@ -26,5 +26,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('erp/', include('apps.core.urls')),
     path('reports/', include('apps.reports.urls')),
+    path('users/', include('apps.user.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -1,3 +1,58 @@
-from django.shortcuts import render
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.views.generic import ListView, CreateView
 # Create your views here.
+from apps.user.models import User
+from apps.user.forms import UserForm
+from apps.core.mixings import ValidatePermissionMixin
+
+class UserListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
+    model = User
+    template_name = "apps/user/list.html"
+    context_object_name = "objects"
+
+    # Método dispath para requerir autenticación
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'searchdata':
+                data = []
+                for i in User.objects.all():
+                    data.append(i.to_json())
+            else:
+                data['error'] = 'Ha ocurrido un error'
+        except Exception as e:
+            data = {'error': str(e)}  # Asegúrate de que data sea un diccionario en caso de error
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['section'] = "Usuario"
+        context['title'] = "Listado de Usuarios"
+        context['url_create'] = reverse_lazy('user:user_create')
+        return context
+
+class UserCreateView(LoginRequiredMixin, ValidatePermissionMixin, CreateView):
+    model = User
+    form_class = UserForm
+    template_name = "apps/generic/create_image.html"
+    success_url = reverse_lazy('user:user_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['section'] = "Usuarios"
+        context['title'] = "Registro de usuarios"
+        context['subtitle'] = "Formulario de registro"
+        context['return_url'] = self.success_url
+        return context
+
