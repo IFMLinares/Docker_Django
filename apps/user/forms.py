@@ -15,11 +15,14 @@ class UserForm(ModelForm):
         self.fields['first_name'].widget.attrs.update({
             'autofocus': 'autofocus'
         })
+        self.fields['groups'].widget.attrs.update({
+            'class': 'select2'
+        })
 
     class Meta:
         model = User
-        fields = 'first_name', 'last_name', 'username', 'email', 'password', 'image'
-        exclude = ['groups', 'user_permissions', 'last_login', 'date_joined', 'is_superuser', 'is_staff', 'is_active']
+        fields = 'first_name', 'last_name', 'username', 'email', 'password', 'groups', 'image'
+        exclude = [ 'user_permissions', 'last_login', 'date_joined', 'is_superuser', 'is_staff', 'is_active']
         widgets = {
             'first_name': TextInput(
                 attrs={
@@ -48,6 +51,12 @@ class UserForm(ModelForm):
                     'placeholder': 'Ingrese su contraseña',
                     }
                 ),
+            'groups': SelectMultiple(
+                attrs={
+                    'style': 'width: 100%',
+                    'multiple': 'multiple',
+                    }
+                ),
         }
 
     def save(self, commit=True):
@@ -63,6 +72,10 @@ class UserForm(ModelForm):
                         u.set_password(pwd)
                 if commit:
                     u.save()
+
+                for g in self.cleaned_data['groups']:
+                    u.groups.add(g)
+
                 return u
             else:
                 raise ValueError(self.errors)
