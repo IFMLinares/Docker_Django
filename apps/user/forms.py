@@ -72,9 +72,9 @@ class UserForm(ModelForm):
                         u.set_password(pwd)
                 if commit:
                     u.save()
-
-                for g in self.cleaned_data['groups']:
-                    u.groups.add(g)
+                    user.groups.clear()
+                    for g in self.cleaned_data['groups']:
+                        u.groups.add(g)
 
                 return u
             else:

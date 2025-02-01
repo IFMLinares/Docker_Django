@@ -40,11 +40,11 @@
                                                     </div>
                                                 </th>
                                                 <th>No.</th>
-                                                <th>Nombres</th>
-                                                <th>Apellidos</th>
+                                                <th>Nombre</th>
                                                 <th>Username</th>
                                                 <th>Fecha registro</th>
                                                 <th class="text-center">Imagen</th>
+                                                <th>Grupos</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -57,8 +57,7 @@
                                                     </div>
                                                 </th>
                                                 <td>{{ obj.id }}</td>
-                                                <td>{{ obj.first_name }}</td>
-                                                <td>{{ obj.last_name }}</td>
+                                                <td>{{ obj.get_full_name }}</td>
                                                 <td>{{ obj.username }} </td>
                                                 <td>{{ obj.date_joined }}</td>
                                                 <td class="text-center">
@@ -67,7 +66,11 @@
                                                     {% else %}
                                                         <i data-feather="camera-off" class="icon-dual"></i>
                                                     {% endif %}
-                                                    <td>
+                                                </td>
+                                                <td>
+                                                    <h5><span class="badge bg-success">{{ obj.groups.all|join:", " }}</span></h5>
+                                                </td>
+                                                <td>
                                                     <a href="{{ obj.get_update_url }}" class="btn btn-primary waves-effect waves-light">
                                                         <i class="bx bx-edit-alt"></i>
                                                     </a>
