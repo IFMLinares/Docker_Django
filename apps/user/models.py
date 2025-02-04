@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
 from django.forms import model_to_dict
+from crum import get_current_request
 
 from django.conf import settings
 
@@ -29,6 +30,16 @@ class User(AbstractUser):
     
     def get_delete_url(self):
         return reverse('user:user_delete', kwargs={'pk': self.pk})
+
+    def get_group_session(self):
+        try:
+            request = get_current_request()
+            groups = self.groups.all()
+            if groups.exists():
+                if 'group' not in request.session:
+                    request.session['group'] = groups[0].pk
+        except:
+            pass
 
     # def save(self, *args, **kwargs):
     #     if self.pk is not None:

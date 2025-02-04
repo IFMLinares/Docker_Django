@@ -88,90 +88,90 @@ $(document).ready(function () {
     // Fin de la grafica de ventas por productos
 
     // Grafica de ventas en tiempo real
-    var onlineOptions = {
-        series: [{
-            data: dataRealtime.slice()
-        }],
-        noData: {
-            text: 'Cargando...'
-        },
-        chart: {
-            id: 'realtime',
-            height: 350,
-            type: 'line',
-            animations: {
-                enabled: true,
-                easing: 'linear',
-                dynamicAnimation: {
-                    speed: 1000
-                }
-            },
-            toolbar: {
-                show: false
-            },
-            zoom: {
-                enabled: false
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            curve: 'smooth'
-        },
-        title: {
-            text: 'Dynamic Updating Chart',
-            align: 'left'
-        },
-        markers: {
-            size: 0
-        },
-        xaxis: {
-            type: 'datetime',
-            range: XAXISRANGE,
-        },
-        yaxis: {
-            max: 100
-        },
-        legend: {
-            show: false
-        },
-    };
+    // var onlineOptions = {
+    //     series: [{
+    //         data: dataRealtime.slice()
+    //     }],
+    //     noData: {
+    //         text: 'Cargando...'
+    //     },
+    //     chart: {
+    //         id: 'realtime',
+    //         height: 350,
+    //         type: 'line',
+    //         animations: {
+    //             enabled: true,
+    //             easing: 'linear',
+    //             dynamicAnimation: {
+    //                 speed: 1000
+    //             }
+    //         },
+    //         toolbar: {
+    //             show: false
+    //         },
+    //         zoom: {
+    //             enabled: false
+    //         }
+    //     },
+    //     dataLabels: {
+    //         enabled: false
+    //     },
+    //     stroke: {
+    //         curve: 'smooth'
+    //     },
+    //     title: {
+    //         text: 'Dynamic Updating Chart',
+    //         align: 'left'
+    //     },
+    //     markers: {
+    //         size: 0
+    //     },
+    //     xaxis: {
+    //         type: 'datetime',
+    //         range: XAXISRANGE,
+    //     },
+    //     yaxis: {
+    //         max: 100
+    //     },
+    //     legend: {
+    //         show: false
+    //     },
+    // };
 
-    var online = new ApexCharts(document.querySelector("#online"), onlineOptions);
-    online.render();
+    // var online = new ApexCharts(document.querySelector("#online"), onlineOptions);
+    // online.render();
 
-    function updateRealtimeChart() {
-        $.ajax({
-            url: window.location.pathname,
-            type: "POST",
-            data: {
-                'action': 'get_graph_online',
-            },
-            dataType: "json",
-            success: function (response) {
-                var newData = {
-                    x: new Date().getTime(), // Current timestamp
-                    y: response.y
-                };
-                dataRealtime.push(newData); // Agrega el nuevo punto de datos a la variable global
-                online.updateSeries([{
-                    data: dataRealtime
-                }]);
-            },
-            error: function (xhr, errmsg, err) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Ocurrió un error al cargar los datos',
-                });
-            }
-        });
-    }
+    // function updateRealtimeChart() {
+    //     $.ajax({
+    //         url: window.location.pathname,
+    //         type: "POST",
+    //         data: {
+    //             'action': 'get_graph_online',
+    //         },
+    //         dataType: "json",
+    //         success: function (response) {
+    //             var newData = {
+    //                 x: new Date().getTime(), // Current timestamp
+    //                 y: response.y
+    //             };
+    //             dataRealtime.push(newData); // Agrega el nuevo punto de datos a la variable global
+    //             online.updateSeries([{
+    //                 data: dataRealtime
+    //             }]);
+    //         },
+    //         error: function (xhr, errmsg, err) {
+    //             Swal.fire({
+    //                 icon: 'error',
+    //                 title: 'Error',
+    //                 text: 'Ocurrió un error al cargar los datos',
+    //             });
+    //         }
+    //     });
+    // }
 
-    var interval = window.setInterval(function () {
-        updateRealtimeChart();
-    }, 1000);
+    // var interval = window.setInterval(function () {
+    //     updateRealtimeChart();
+    // }, 1000);
     // Fin de la grafica de ventas en tiempo real
 
     // Funcion para obtener los datos de la grafica de ventas por mes

@@ -24,6 +24,10 @@ class IndexView(LoginRequiredMixin, TemplateView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
     
+    def get(self, request, *args, **kwargs):
+        request.user.get_group_session()
+        return super().get(request, *args, **kwargs)
+    
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -37,7 +41,6 @@ class IndexView(LoginRequiredMixin, TemplateView):
                 }
             elif action == 'get_graph_online':
                 data = {'y': randint(1, 100)}
-                print(data)
         except Exception as e:
             pass
         return JsonResponse(data, safe=False)
@@ -50,7 +53,6 @@ class IndexView(LoginRequiredMixin, TemplateView):
                 total = Sale.objects.filter(date_joined__year=year, date_joined__month=m).aggregate(
                     r=Coalesce(Sum('total'), 0, output_field=DecimalField())
                 ).get('r')
-                print(total)
                 data.append(float(total))
         except:
             pass

@@ -3,9 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, View
 # Create your views here.
 from apps.user.models import User
 from apps.user.forms import UserForm
@@ -71,7 +71,7 @@ class UserUpdate(LoginRequiredMixin, ValidatePermissionMixin,FormMessagesMixin, 
         context['return_url'] = self.success_url
         return context
 
-class UserDeleteView(LoginRequiredMixin,ValidatePermissionMixin,FormMessagesMixin, DeleteView):
+class UserDeleteView(LoginRequiredMixin, ValidatePermissionMixin,FormMessagesMixin, DeleteView):
     model = User
     template_name = "apps/categories/delete.html"
     success_url = reverse_lazy('user:user_list')
@@ -84,3 +84,11 @@ class UserDeleteView(LoginRequiredMixin,ValidatePermissionMixin,FormMessagesMixi
         context['return_url'] = self.success_url
         return context
 
+class UserChangeGroupView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        try:
+            request.session['group'] = kwargs['pk']
+        except:
+            pass
+        return HttpResponseRedirect(reverse_lazy('index'))
