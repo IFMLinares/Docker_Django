@@ -9,5 +9,6 @@ urlpatterns = [
     path('update/<int:pk>/', UserUpdate.as_view(), name='user_update'),
     path('delete/<int:pk>/', UserDeleteView.as_view(), name='user_delete'),
     path('change/group/<int:pk>/', UserChangeGroupView.as_view(), name='user_change_group'),
+    path('change/password/', UserChangePassword.as_view(), name='user_change_password'),
     path('profile/', UserProfileView.as_view(), name='user_profile'),
 ]
