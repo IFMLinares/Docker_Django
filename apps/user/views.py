@@ -8,10 +8,11 @@ from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, View
 # Create your views here.
 from apps.user.models import User
-from apps.user.forms import UserForm
+from apps.user.forms import UserForm, UserProfileForm
 from apps.core.mixings import ValidatePermissionMixin
 from apps.mixings import FormMessagesMixin
 
+# Vista para listar los usuarios
 class UserListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
     model = User
     template_name = "apps/user/list.html"
@@ -43,6 +44,7 @@ class UserListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
         context['url_create'] = reverse_lazy('user:user_create')
         return context
 
+# Vista para crear un usuario 
 class UserCreateView(LoginRequiredMixin, ValidatePermissionMixin,FormMessagesMixin, CreateView):
     model = User
     form_class = UserForm
@@ -57,6 +59,7 @@ class UserCreateView(LoginRequiredMixin, ValidatePermissionMixin,FormMessagesMix
         context['return_url'] = self.success_url
         return context
 
+# Vista para actualizar un usuario
 class UserUpdate(LoginRequiredMixin, ValidatePermissionMixin,FormMessagesMixin, UpdateView):
     model = User
     form_class = UserForm
@@ -71,6 +74,7 @@ class UserUpdate(LoginRequiredMixin, ValidatePermissionMixin,FormMessagesMixin, 
         context['return_url'] = self.success_url
         return context
 
+# Vista para eliminar un usuario
 class UserDeleteView(LoginRequiredMixin, ValidatePermissionMixin,FormMessagesMixin, DeleteView):
     model = User
     template_name = "apps/categories/delete.html"
@@ -84,6 +88,29 @@ class UserDeleteView(LoginRequiredMixin, ValidatePermissionMixin,FormMessagesMix
         context['return_url'] = self.success_url
         return context
 
+#  Vista para Actualizar el usuario
+class UserProfileView(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = UserProfileForm
+    template_name = "apps/generic/create_image.html"
+    success_url = reverse_lazy('index')
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['section'] = "Usuario"
+        context['title'] = "Edición de perfil"
+        context['subtitle'] = "Formulario de edición"
+        context['return_url'] = self.success_url
+        return context
+
+# Vista para cambiar de grupo
 class UserChangeGroupView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
