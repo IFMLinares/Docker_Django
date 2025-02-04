@@ -17,6 +17,7 @@ class ProductListView(LoginRequiredMixin, ValidatePermissionMixin, ListView):
     model = Product
     template_name = "apps/products/list.html"
     context_object_name = "objects"
+    permission_required = 'view_product'
 
     # Método dispath para requerir autenticación
     @method_decorator(csrf_exempt)

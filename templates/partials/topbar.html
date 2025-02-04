@@ -464,7 +464,6 @@
                                         {% endif %}
                                     {% endfor %}
                                 </button>
-                                {% if request.user.groups.all > 1 %}
                                 <ul class="dropdown-menu" aria-labelledby="defaultDropdown">
                                     {% for group in request.user.groups.all %}
                                     <li>
@@ -477,7 +476,6 @@
                                     </li>
                                     {% endfor %}
                                 </ul>
-                                {% endif %}
                             </div>
                         {% endif %}
                         <div class="dropdown ms-sm-3 header-item topbar-user">
