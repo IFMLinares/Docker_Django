@@ -27,11 +27,11 @@ services:
   web:
     build: .
     container_name: django_site
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:9000
     volumes:
       - .:/code
     ports:
-      - "8000:8000"
+      - "9000:9000"
     environment:
       - POSTGRES_NAME=django_cero_master
       - POSTGRES_USER=admin
